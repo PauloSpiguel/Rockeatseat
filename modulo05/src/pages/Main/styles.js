@@ -16,7 +16,7 @@ export const Container = styled.div`
   }
 
   svg {
-    margin-right: 10px;
+    margin: 5px;
   }
 `;
 
@@ -34,9 +34,10 @@ export const Form = styled.form`
   }
 `;
 
-export const SubmitButton = styled.button.attrs({
+export const SubmitButton = styled.button.attrs(props => ({
   type: 'submit',
-})`
+  disabled: props.loading, // Acessa as propriedades do botão »»»» true ou false
+}))`
   background: #7159c1;
   border: 0;
   padding: 0 15px;
@@ -46,4 +47,9 @@ export const SubmitButton = styled.button.attrs({
   display: flex;
   justify-content: center;
   align-items: center;
+
+  &[disabled] {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
 `;
