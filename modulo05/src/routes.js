@@ -9,7 +9,8 @@ export default function Routes() {
     <BrowserRouter>
       <Switch>
         <Route path="/" exact component={Main} />
-        <Route path="/repository" component={Repository} />
+        {/** Resebendo parametros via url  */}
+        <Route path="/repository/:repository" component={Repository} />
       </Switch>
     </BrowserRouter>
   );
