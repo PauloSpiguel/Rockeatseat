@@ -1,9 +1,10 @@
+/* eslint-disable react/state-in-constructor */
 import React, { Component } from 'react';
 import { FaGithubAlt, FaPlus, FaSpinner } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import Container from '../../components/Container';
 
-import { Form, SubmitButton, List } from './styles';
+import { Form, SubmitButton, List, Input } from './styles';
 
 import api from '../../services/api';
 
@@ -12,6 +13,7 @@ export default class Main extends Component {
     newRepo: '',
     repositories: [],
     loading: false,
+    validComp: [],
   };
 
   // Carrega os valores armazenados no localstorege do navegador
@@ -41,25 +43,42 @@ export default class Main extends Component {
   handleSubmit = async e => {
     e.preventDefault(); // Não Recarrega a página
 
-    this.setState({ loading: true });
+    try {
+      this.setState({ loading: true });
 
-    const { newRepo, repositories } = this.state;
+      const { newRepo, repositories } = this.state;
 
-    const response = await api.get(`/repos/${newRepo}`);
+      if (!newRepo) {
+        throw new Error('Preencha campo obrigatório');
+      }
 
-    const data = {
-      name: response.data.full_name,
-    };
+      if (repositories.find(repository => repository.name === newRepo)) {
+        throw new Error('Respositório duplicado');
+      }
 
-    this.setState({
-      repositories: [...repositories, data],
-      newRepo: '',
-      loading: false,
-    });
+      const response = await api.get(`/repos/${newRepo}`);
+
+      const data = {
+        name: response.data.full_name,
+      };
+
+      this.setState({
+        repositories: [...repositories, data],
+        newRepo: '',
+        loading: false,
+        validComp: { border: '1px solid #eee' },
+      });
+    } catch (error) {
+      this.setState({
+        loading: false,
+        validComp: { border: '2px solid red' },
+        newRepo: '',
+      });
+    }
   };
 
   render() {
-    const { newRepo, loading, repositories } = this.state;
+    const { newRepo, loading, repositories, validComp } = this.state;
 
     return (
       <Container>
@@ -68,11 +87,10 @@ export default class Main extends Component {
           Repositórios
         </h1>
         <Form onSubmit={this.handleSubmit}>
-          <input
-            type="text"
-            placeholder="Adicionar Repositório"
-            value={newRepo}
-            onChange={this.handleInputChange}
+          <Input
+            handleInputChange={this.handleInputChange}
+            newRepo={newRepo}
+            style={validComp}
           />
           <SubmitButton loading={loading}>
             {/** Conditional rendeled »»» Cria condição dentro do componente */

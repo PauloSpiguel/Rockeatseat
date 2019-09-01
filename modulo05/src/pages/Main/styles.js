@@ -4,14 +4,6 @@ export const Form = styled.form`
   margin-top: 30px;
   display: flex;
   flex-direction: row;
-
-  input {
-    flex: 1;
-    border: 1px solid #eee;
-    padding: 10px 15px;
-    border-radius: 4px;
-    font-size: 16px;
-  }
 `;
 
 /** Funcionalidade keyframes »»» para fazer animações */
@@ -76,4 +68,20 @@ export const List = styled.ul`
     color: #7159c1;
     text-decoration: none;
   }
+`;
+
+export const Input = styled.input.attrs(props => ({
+  type: 'text',
+  placeholder: 'Adicionar Repositório',
+  value: props.newRepo,
+  onChange: props.handleInputChange,
+  required: 'required',
+  valid: false,
+}))`
+  flex: 1;
+  border: 1px solid #eee;
+  padding: 10px 15px;
+  border-radius: 4px;
+  font-size: 16px;
+  margin-left: 10px;
 `;

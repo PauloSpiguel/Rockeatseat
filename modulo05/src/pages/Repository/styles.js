@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { getPortPromise } from 'portfinder';
 
 export const Loading = styled.div`
   color: #fff;
@@ -66,6 +67,7 @@ export const IssuesList = styled.ul`
       border-radius: 50%;
       border: 2px solid #eee;
     }
+
     div {
       flex: 1;
       margin-left: 15px;
@@ -98,6 +100,46 @@ export const IssuesList = styled.ul`
         font-size: 12px;
         color: #999;
       }
+    }
+  }
+`;
+
+export const IssuesFilter = styled.div`
+  display: flex;
+  justify-content: center;
+  padding-bottom: 15px;
+
+  button {
+    border-radius: 4px;
+    outline: 0;
+    border: 0;
+    padding: 8px;
+    margin: 0 0.25rem;
+
+    &:nth-child(${props => props.active + 1}) {
+      background: #576574;
+      color: white;
+    }
+  }
+`;
+
+export const PageActive = styled.div`
+  padding-top: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+
+  button {
+    transition: opacity 0.25s ease-out;
+    border-radius: 4px;
+    outline: 0;
+    border: 0;
+    padding: 8px;
+
+    &:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
     }
   }
 `;
